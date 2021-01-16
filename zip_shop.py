@@ -44,5 +44,7 @@ def zip_dir(path, zip_handler, exclude_fold, exclude_fl, exclude_conf):
 
 # Create zip file from current directory
 with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
+    print('Start compressing shop folder to zip archive...')
     zip_dir(f'.{os.sep}', zip_fl, exclude_folders, exclude_files, exclude_configs)
     zip_fl.close()
+    print(f'End compressing shop folder to zip archive, file size {os.stat(archive_name).st_size} bytes')
