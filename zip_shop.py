@@ -7,7 +7,7 @@ archive_name = f'{current_folder_name}.zip'
 exclude_folders = (f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git')
 # Exclude generated zip archive from himself, current python script and other unwanted files
 exclude_files = (archive_name, os.path.basename(__file__), '.gitignore')
-# Exclude OpenCart config files
+# Exclude OpenCart config files, set exclude_configs to [], if you don't want to exclude configs
 exclude_configs = (f'.{os.sep}config.php', f'.{os.sep}admin{os.sep}config.php')
 
 
