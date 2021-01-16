@@ -39,12 +39,19 @@ def zip_dir(path, zip_handler, exclude_fold, exclude_fl, exclude_conf):
             file_path = os.path.join(root, file)
             if check_configs(file_path, exclude_conf):
                 continue
-            zip_handler.write(file_path, file_path[path_len:])
+            try:
+                zip_handler.write(file_path, file_path[path_len:])
+            except OSError as zip_err:
+                print(f'\tError is occurred, {zip_err}\n\tcontinue compression...')
 
 
 # Create zip file from current directory
-with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
-    print('Start compressing shop folder to zip archive...')
-    zip_dir(f'.{os.sep}', zip_fl, exclude_folders, exclude_files, exclude_configs)
-    zip_fl.close()
-    print(f'End compressing shop folder to zip archive, file size {os.stat(archive_name).st_size} bytes')
+try:
+    with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
+        print('Start compressing shop folder to zip archive...')
+        zip_dir(f'.{os.sep}', zip_fl, exclude_folders, exclude_files, exclude_configs)
+        zip_fl.close()
+        print(
+            f'End compressing shop folder to zip archive, file size {os.stat(archive_name).st_size} bytes')
+except zipfile.BadZipFile as err:
+    print(f'Compressing is failed: {err}')
