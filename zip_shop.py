@@ -45,6 +45,44 @@ def zip_dir(path, zip_handler, exclude_fold, exclude_fl, exclude_conf):
                 print(f'\tError is occurred, {zip_err}\n\tcontinue compression...')
 
 
+def humanize_bytes(bytes_value, precision=1):
+    """Return a humanized string representation of a number of bytes.
+
+    >>> humanize_bytes(1)
+    '1 byte'
+    >>> humanize_bytes(1024)
+    '1.0 kB'
+    >>> humanize_bytes(1024*123)
+    '123.0 kB'
+    >>> humanize_bytes(1024*12342)
+    '12.1 MB'
+    >>> humanize_bytes(1024*12342,2)
+    '12.05 MB'
+    >>> humanize_bytes(1024*1234,2)
+    '1.21 MB'
+    >>> humanize_bytes(1024*1234*1111,2)
+    '1.31 GB'
+    >>> humanize_bytes(1024*1234*1111,1)
+    '1.3 GB'
+    """
+    abbrevs = (
+        (1024 * 1024 * 1024 * 1024 * 1024, 'PB'),
+        (1024 * 1024 * 1024 * 1024, 'TB'),
+        (1024 * 1024 * 1024, 'GB'),
+        (1024 * 1024, 'MB'),
+        (1024, 'kB'),
+        (1, 'bytes')
+    )
+    if bytes_value == 1:
+        return '1 byte'
+    factor = 0
+    suffix = ''
+    for factor, suffix in abbrevs:
+        if bytes_value >= factor:
+            break
+    return f'{round(bytes_value / factor, 2)} {suffix}'
+
+
 # Create zip file from current directory
 try:
     with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
@@ -52,6 +90,9 @@ try:
         zip_dir(f'.{os.sep}', zip_fl, exclude_folders, exclude_files, exclude_configs)
         zip_fl.close()
         print(
-            f'End compressing shop folder to zip archive, file size {os.stat(archive_name).st_size} bytes')
+            f'End compressing shop folder to zip archive, ',
+            f'file size {humanize_bytes(os.stat(archive_name).st_size, 2)}',
+            sep=''
+        )
 except zipfile.BadZipFile as err:
     print(f'Compressing is failed: {err}')
