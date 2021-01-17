@@ -1,18 +1,19 @@
 import os
 import zipfile
 
-current_folder_name = os.path.basename(os.getcwd())
-archive_name = f'{current_folder_name}.zip'
+current_folder_name: str = os.path.basename(os.getcwd())
+archive_name: str = f'{current_folder_name}.zip'
 # Exclude IDE working folders and Git folder
-exclude_folders = (f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git')
+exclude_folders: tuple[str, ...] = (f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git')
 # Exclude generated zip archive from himself, current python script and other unwanted files
-exclude_files = (archive_name, os.path.basename(__file__), '.gitignore')
+exclude_files: tuple[str, ...] = (archive_name, os.path.basename(__file__), '.gitignore')
 # Exclude OpenCart config files, set exclude_configs to [], if you don't want to exclude configs
-exclude_configs = (f'.{os.sep}config.php', f'.{os.sep}admin{os.sep}config.php')
+exclude_configs: tuple[str, str] or list[str, str] = (
+    f'.{os.sep}config.php', f'.{os.sep}admin{os.sep}config.php')
 
 
 # Check if folder present in excluded folder
-def check_folder(exclude_folder, main_folder):
+def check_folder(exclude_folder: exclude_folders, main_folder: str):
     for folder in exclude_folder:
         if folder in main_folder:
             return True
@@ -20,7 +21,7 @@ def check_folder(exclude_folder, main_folder):
 
 
 # Check if file present in excluded config files
-def check_configs(file_full_path, exclude_configs_tuple):
+def check_configs(file_full_path: str, exclude_configs_tuple: exclude_configs):
     for config_file in exclude_configs_tuple:
         if file_full_path == config_file:
             return True
@@ -28,7 +29,8 @@ def check_configs(file_full_path, exclude_configs_tuple):
 
 
 # Generate zip archive of current OpenCart shop directory( with excluded configs )
-def zip_dir(path, zip_handler, exclude_fold, exclude_fl, exclude_conf):
+def zip_dir(path: str, zip_handler, exclude_fold: exclude_folders, exclude_fl: exclude_files,
+            exclude_conf: exclude_configs):
     path_len = len(path)
     for root, _, files in os.walk(path):
         if check_folder(exclude_fold, root):
@@ -45,7 +47,7 @@ def zip_dir(path, zip_handler, exclude_fold, exclude_fl, exclude_conf):
                 print(f'\tError is occurred, {zip_err}\n\tcontinue compression...')
 
 
-def humanize_bytes(bytes_value, precision=1):
+def humanize_bytes(bytes_value: int, precision: int = 1):
     """Return a humanized string representation of a number of bytes.
 
     >>> humanize_bytes(1)
@@ -73,8 +75,8 @@ def humanize_bytes(bytes_value, precision=1):
     )
     if bytes_value == 1:
         return '1 byte'
-    factor = 0
-    suffix = ''
+    factor: int = 0
+    suffix: str = ''
     for factor, suffix in abbrevs:
         if bytes_value >= factor:
             break
