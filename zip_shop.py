@@ -8,7 +8,7 @@ exclude_folders: tuple[str, ...] = (f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{
 # Exclude generated zip archive from himself, current python script and other unwanted files
 exclude_files: tuple[str, ...] = (archive_name, os.path.basename(__file__), '.gitignore')
 # Exclude OpenCart config files, set exclude_configs to [], if you don't want to exclude configs
-exclude_configs: tuple[str, str] or list[str, str] = (
+exclude_configs: tuple[str, str] or [] = (
     f'.{os.sep}config.php', f'.{os.sep}admin{os.sep}config.php')
 
 
