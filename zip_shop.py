@@ -66,8 +66,6 @@ def humanize_bytes(bytes_value, precision=1):
     '1.3 GB'
     """
     abbrevs = (
-        (1024 * 1024 * 1024 * 1024 * 1024, 'PB'),
-        (1024 * 1024 * 1024 * 1024, 'TB'),
         (1024 * 1024 * 1024, 'GB'),
         (1024 * 1024, 'MB'),
         (1024, 'kB'),
@@ -80,7 +78,7 @@ def humanize_bytes(bytes_value, precision=1):
     for factor, suffix in abbrevs:
         if bytes_value >= factor:
             break
-    return f'{round(bytes_value / factor, 2)} {suffix}'
+    return f'{round(bytes_value / factor, precision)} {suffix}'
 
 
 # Create zip file from current directory
