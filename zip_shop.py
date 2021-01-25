@@ -84,15 +84,16 @@ def humanize_bytes(bytes_value: int, precision: int = 1):
 
 
 # Create zip file from current directory
-try:
-    with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
-        print('Start compressing shop folder to zip archive...')
-        zip_dir(f'.{os.sep}', zip_fl, exclude_folders, exclude_files, exclude_configs)
-        zip_fl.close()
-        print(
-            f'End compressing shop folder to zip archive, ',
-            f'file size {humanize_bytes(os.stat(archive_name).st_size, 2)}',
-            sep=''
-        )
-except zipfile.BadZipFile as err:
-    print(f'Compressing is failed: {err}')
+if __name__ == "__main__":
+    try:
+        with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
+            print('Start compressing shop folder to zip archive...')
+            zip_dir(f'.{os.sep}', zip_fl, exclude_folders, exclude_files, exclude_configs)
+            zip_fl.close()
+            print(
+                f'End compressing shop folder to zip archive, ',
+                f'file size {humanize_bytes(os.stat(archive_name).st_size, 2)}',
+                sep=''
+            )
+    except zipfile.BadZipFile as err:
+        print(f'Compressing is failed: {err}')
