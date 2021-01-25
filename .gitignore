@@ -2,3 +2,5 @@ admin
 config.php
 zip_opencart_shop.zip
 .idea
+gui/__pycache__
+__pycache__
