@@ -17,34 +17,52 @@ class MainWindow(QMainWindow):
         self.exclude_configs: tuple[str, str] or [] = []
 
     def browseFolderPathSlot(self):
-        pass
+        """
+        Called when the user presses the Browse button
+        :return: None
+        """
+        self.debugPrint('Browse button pressed')
+
+    def debugPrint(self, msg):
+        """
+        Print the message in the text edit at the bottom of the
+        horizontal splitter.
+        :return: None
+        """
+        self.ui.debugTextBrowser.append(msg)
 
     def returnedPressedSlot(self):
-        pass
+        """
+        Called when the user enters a string in the line edit and
+        presses the ENTER key.
+        :return: None
+        """
+        self.debugPrint('RETURN key pressed in LineEdit widget')
 
     def excludeConfigSlot(self):
+        """
+        Set excluded config files
+        :return: None
+        """
         self.exclude_configs = exclude_configs
 
     def compressToZipSlot(self):
-        """
-        Create zip file from current directory
+        """Create zip file from current directory
         :return: None
         """
         try:
             with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
-                print('Start compressing shop folder to zip archive...')
+                self.debugPrint('Start compressing shop folder to zip archive...')
                 zip_dir(self.path, zip_fl, exclude_folders, exclude_files, self.exclude_configs)
                 zip_fl.close()
-                print(
-                    f'End compressing shop folder to zip archive, ',
-                    f'file size {humanize_bytes(os.stat(archive_name).st_size, 2)}',
-                    sep=''
-                )
+                self.debugPrint('End compressing shop folder to zip archive, ')
+                self.debugPrint(f'file size {humanize_bytes(os.stat(archive_name).st_size, 2)}')
         except zipfile.BadZipFile as err:
-            print(f'Compressing is failed: {err}')
+            self.debugPrint(f'Compressing is failed: {err}')
 
 
-app = QApplication(sys.argv)
-window = MainWindow()
-window.show()
-sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
