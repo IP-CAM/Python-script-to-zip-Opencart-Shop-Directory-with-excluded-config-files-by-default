@@ -42,6 +42,7 @@ def zip_dir(path: str, zip_handler, exclude_fold: exclude_folders, exclude_fl: e
             if check_configs(file_path, exclude_conf):
                 continue
             try:
+                # Add only root directory content, exclude the root directory folder
                 zip_handler.write(file_path, file_path[path_len:])
             except OSError as zip_err:
                 print(f'\tError is occurred, {zip_err}\n\tcontinue compression...')
