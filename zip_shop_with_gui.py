@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.path = f'.{os.sep}'
+        self.path: str = f'.{os.sep}'
         # Exclude OpenCart config files
         self.exclude_configs: tuple[str, str] or [] = []
 
@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         Called when the user presses the Browse button
         :return: None
         """
-        directory = QFileDialog.getExistingDirectory()
+        directory: str = QFileDialog.getExistingDirectory()
         if os.path.exists(directory) and os.path.isdir(directory):
             self.path = directory
             # Set text to input as directory path
@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
         presses the ENTER key.
         :return: None
         """
-        directory = self.ui.lineEdit.text()
+        directory: str = self.ui.lineEdit.text()
         if os.path.exists(directory) and os.path.isdir(directory):
             self.path = directory
             self.debugPrint(f'Set directory: {directory}')
@@ -64,7 +64,7 @@ class MainWindow(QMainWindow):
             self.debugPrint('Configs will not be excluded')
 
     def compressToZipSlot(self):
-        """Create zip file from current directory
+        """Creates zip file from chosen directory
         :return: None
         """
         try:
