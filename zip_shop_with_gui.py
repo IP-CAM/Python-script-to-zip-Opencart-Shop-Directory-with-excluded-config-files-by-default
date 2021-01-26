@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
             else:
                 self.exclude_configs = (
                     f'{self.path}{os.sep}config.php', f'{self.path}{os.sep}admin{os.sep}config.php')
-            self.debugPrint(f'Set exclude configs: {self.exclude_configs}')
+            self.debugPrint('Set exclude configs')
         else:
             self.exclude_configs = []
             self.debugPrint('Configs will not be excluded')
