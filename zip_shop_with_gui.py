@@ -71,15 +71,16 @@ class MainWindow(QMainWindow):
         """Creates zip file from chosen directory
         :return: None
         """
+        self.debugPrint(f'Start compressing {self.path} folder to zip archive...')
         try:
-            with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
-                self.debugPrint(f'Start compressing {self.path} folder to zip archive...')
-                zip_dir(self.path, zip_fl, exclude_folders, exclude_files, self.exclude_configs)
+            with zipfile.ZipFile(self.archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
+                zip_dir(self.path, zip_fl, self.exclude_folders, exclude_files, self.exclude_configs,
+                        zip_logger=self.debugPrint)
                 zip_fl.close()
-                self.debugPrint(f'End compressing {self.path} folder to zip archive, ')
-                self.debugPrint(f'file size {humanize_bytes(os.stat(archive_name).st_size, 2)}')
+                self.debugPrint(f'file size {humanize_bytes(os.stat(self.archive_name).st_size, 2)}')
         except zipfile.BadZipFile as err:
             self.debugPrint(f'Compressing is failed: {err}')
+        self.debugPrint(f'End compressing {self.path} folder to zip archive.')
 
 
 if __name__ == "__main__":
