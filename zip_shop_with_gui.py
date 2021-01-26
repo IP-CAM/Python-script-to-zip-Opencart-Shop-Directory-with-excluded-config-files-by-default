@@ -3,8 +3,7 @@ import zipfile
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
 from gui.design import Ui_MainWindow
-from zip_shop import zip_dir, humanize_bytes, exclude_configs, exclude_folders, exclude_files, \
-    archive_name
+from zip_shop import zip_dir, humanize_bytes, exclude_configs, exclude_files
 
 
 class MainWindow(QMainWindow):
@@ -13,6 +12,9 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.path: str = f'.{os.sep}'
+        self.exclude_folders: tuple[str, ...] = (
+            f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git', f'.{os.sep}__pycache__')
+        self.archive_name: str = f'{os.path.basename(os.getcwd())}.zip'
         # Exclude OpenCart config files
         self.exclude_configs: tuple[str, str] or [] = []
 
@@ -26,6 +28,7 @@ class MainWindow(QMainWindow):
             self.path = directory
             # Set text to input as directory path
             self.ui.lineEdit.setText(directory)
+            self.archive_name = f'{os.path.basename(directory)}.zip'
             self.debugPrint(f'Set directory: {directory}')
         else:
             self.debugPrint('The directory is not exist!')
@@ -47,6 +50,7 @@ class MainWindow(QMainWindow):
         directory: str = self.ui.lineEdit.text()
         if os.path.exists(directory) and os.path.isdir(directory):
             self.path = directory
+            self.archive_name = f'{os.path.basename(directory)}.zip'
             self.debugPrint(f'Set directory: {directory}')
         else:
             self.debugPrint('The directory of your input is not exist!')
