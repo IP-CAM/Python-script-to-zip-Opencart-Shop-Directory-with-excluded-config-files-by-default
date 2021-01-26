@@ -53,8 +53,12 @@ class MainWindow(QMainWindow):
         Set excluded config files
         :return: None
         """
-        self.exclude_configs = exclude_configs
-        self.debugPrint(f'Set exclude configs: {exclude_configs}')
+        if self.ui.checkBox.isChecked():
+            self.exclude_configs = exclude_configs
+            self.debugPrint(f'Set exclude configs: {exclude_configs}')
+        else:
+            self.exclude_configs = []
+            self.debugPrint('Configs will not be excluded')
 
     def compressToZipSlot(self):
         """Create zip file from current directory
