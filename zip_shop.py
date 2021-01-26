@@ -4,7 +4,8 @@ import zipfile
 current_folder_name: str = os.path.basename(os.getcwd())
 archive_name: str = f'{current_folder_name}.zip'
 # Exclude IDE working folders and Git folder
-exclude_folders: tuple[str, ...] = (f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git')
+exclude_folders: tuple[str, ...] = (
+    f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git', f'.{os.sep}__pycache__')
 # Exclude generated zip archive from himself, current python script and other unwanted files
 exclude_files: tuple[str, ...] = (archive_name, os.path.basename(__file__), '.gitignore')
 # Exclude OpenCart config files, set exclude_configs to [], if you don't want to exclude configs
