@@ -1,9 +1,11 @@
 import os
-import zipfile
 import sys
+import zipfile
+
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
+
 from gui.design import Ui_MainWindow
-from zip_shop import zip_dir, humanize_bytes, exclude_configs, exclude_files
+from zip_shop import zip_dir, humanize_bytes
 
 
 class MainWindow(QMainWindow):
@@ -12,9 +14,13 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.path: str = f'.{os.sep}'
+        # Exclude IDE working folders and Git folder
         self.exclude_folders: tuple[str, ...] = (
-            f'.{os.sep}.idea', f'.{os.sep}.vscode', f'.{os.sep}.git', f'.{os.sep}__pycache__')
+            f'{os.sep}.idea', f'{os.sep}.vscode', f'{os.sep}.git', f'{os.sep}__pycache__')
         self.archive_name: str = f'{os.path.basename(os.getcwd())}.zip'
+        # Exclude generated zip archive from himself, current python script and other unwanted files
+        self.exclude_files: tuple[str, ...] = (
+            self.archive_name, os.path.basename(__file__), '.gitignore')
         # Exclude OpenCart config files
         self.exclude_configs: tuple[str, str] or [] = []
 
@@ -61,8 +67,12 @@ class MainWindow(QMainWindow):
         :return: None
         """
         if self.ui.checkBox.isChecked():
-            self.exclude_configs = exclude_configs
-            self.debugPrint(f'Set exclude configs: {exclude_configs}')
+            if self.path == f'.{os.sep}':
+                self.exclude_configs = (f'.{os.sep}config.php', f'.{os.sep}admin{os.sep}config.php')
+            else:
+                self.exclude_configs = (
+                    f'{self.path}{os.sep}config.php', f'{self.path}{os.sep}admin{os.sep}config.php')
+            self.debugPrint(f'Set exclude configs: {self.exclude_configs}')
         else:
             self.exclude_configs = []
             self.debugPrint('Configs will not be excluded')
@@ -74,7 +84,8 @@ class MainWindow(QMainWindow):
         self.debugPrint(f'Start compressing {self.path} folder to zip archive...')
         try:
             with zipfile.ZipFile(self.archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
-                zip_dir(self.path, zip_fl, self.exclude_folders, exclude_files, self.exclude_configs,
+                zip_dir(self.path, zip_fl, self.exclude_folders, self.exclude_files,
+                        self.exclude_configs,
                         zip_logger=self.debugPrint)
                 zip_fl.close()
                 self.debugPrint(f'file size {humanize_bytes(os.stat(self.archive_name).st_size, 2)}')
