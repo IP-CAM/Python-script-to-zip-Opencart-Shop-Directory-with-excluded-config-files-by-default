@@ -31,7 +31,7 @@ def check_configs(file_full_path: str, exclude_configs_tuple: exclude_configs):
 
 # Generate zip archive of current OpenCart shop directory( with excluded configs )
 def zip_dir(path: str, zip_handler, exclude_fold: exclude_folders, exclude_fl: exclude_files,
-            exclude_conf: exclude_configs):
+            exclude_conf: exclude_configs, zip_logger=print):
     path_len = len(path)
     for root, _, files in os.walk(path):
         if check_folder(exclude_fold, root):
@@ -46,7 +46,7 @@ def zip_dir(path: str, zip_handler, exclude_fold: exclude_folders, exclude_fl: e
                 # Add only root directory content, exclude the root directory folder
                 zip_handler.write(file_path, file_path[path_len:])
             except OSError as zip_err:
-                print(f'\tError is occurred, {zip_err}\n\tcontinue compression...')
+                zip_logger(f'\tError is occurred, {zip_err}\n\tcontinue compression...')
 
 
 def humanize_bytes(bytes_value: int, precision: int = 1):
