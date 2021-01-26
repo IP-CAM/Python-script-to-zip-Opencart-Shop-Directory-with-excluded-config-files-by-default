@@ -22,10 +22,13 @@ class MainWindow(QMainWindow):
         :return: None
         """
         directory = QFileDialog.getExistingDirectory()
-        self.path = directory
-        # Set text to input as directory path
-        self.ui.lineEdit.setText(directory)
-        self.debugPrint(f'Set directory: {directory}')
+        if os.path.exists(directory) and os.path.isdir(directory):
+            self.path = directory
+            # Set text to input as directory path
+            self.ui.lineEdit.setText(directory)
+            self.debugPrint(f'Set directory: {directory}')
+        else:
+            self.debugPrint('The directory is not exist!')
 
     def debugPrint(self, msg):
         """
