@@ -105,6 +105,6 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Folder path", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Browse", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"Exclude configs", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Compress", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"COMPRESS", None))
     # retranslateUi
 

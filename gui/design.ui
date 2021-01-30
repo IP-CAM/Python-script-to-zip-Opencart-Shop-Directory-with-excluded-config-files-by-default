@@ -120,7 +120,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Compress</string>
+         <string>COMPRESS</string>
         </property>
        </widget>
       </item>
