@@ -5,8 +5,8 @@ Python 3.9, OS Windows 10. Use it for you own risk.
 
 ## How to use
 
-First, download and install [Python](https://www.python.org/downloads/) to you OS, then copy _
-zip_shop.py_ to you OpenCart directory, and open that directory in terminal.
+First, download and install [Python](https://www.python.org/downloads/) to you OS, then copy zip_shop.py
+to you OpenCart directory, and open that directory in terminal.
 
 Input in terminal:
 
