@@ -14,6 +14,13 @@ Input in terminal:
 
 and wait until python compress you folder to zip file.
 
+### Use with command line flag
+
+If you want to include the config.php and admin/config.php files in an archive, just add
+--include-configs flag to you command:
+
+`python zip_shop.py --include-configs`
+
 ## Use with gui
 
 With GUI( Graphic User Interface ) you may choose the folder contains OpenCart shop and check exclude

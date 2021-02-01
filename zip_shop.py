@@ -1,5 +1,6 @@
 import os
 import zipfile
+import sys
 
 current_folder_name: str = os.path.basename(os.getcwd())
 archive_name: str = f'{current_folder_name}.zip'
@@ -87,6 +88,9 @@ def humanize_bytes(bytes_value: int, precision: int = 1):
 
 # Create zip file from current directory
 if __name__ == "__main__":
+    # Check command line flag
+    if '--include-configs' in sys.argv:
+        exclude_configs = []
     try:
         with zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED) as zip_fl:
             print('Start compressing shop folder to zip archive...')
